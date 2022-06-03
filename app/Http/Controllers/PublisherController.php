@@ -35,14 +35,13 @@ class PublisherController extends Controller
         $books_id = $user->books->pluck('id');
 
         $contributors = DB::table('book_user')
-        ->select('user_id')
+        ->select('user_id', 'action')
         ->whereNot('action' , 'publisher')
         ->whereIn('book_id' , $books_id->toArray())
         ->distinct()
-        ->count();
+        ->pluck('action');
 
-
-        return $contributors;
+        $contributors_num = $contributors->countBy()->all();
 
         return [
             'info' => [
@@ -50,7 +49,7 @@ class PublisherController extends Controller
             ],
             'followers' => $user->followers->count(),
             'books' => $user->books->count(),
-            ''
+            'contributors_num' => $contributors_num
         ];
         
     }
