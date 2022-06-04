@@ -13,6 +13,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PublisherController;
 use App\Http\Controllers\ContributorController;
 use App\Http\Controllers\Crawler\BookResources;
+use App\Http\Controllers\SocialMediaController;
 use App\Http\Controllers\SuggestionController;
 use App\Http\Controllers\TimelineController;
 
@@ -45,13 +46,13 @@ use App\Http\Controllers\TimelineController;
 
 // Route::post('/book/add_to_shelf' , [BookController::class , 'add_to_shelf']);
 // Route::post('/book/remove_from_shelf' , [BookController::class , 'remove_from_shelf']);
+Route::get('/publisher/{user}/books/{order}/{page}' , [BookController::class , 'books']);
 
 // // * when a user has finished reading a book and want to change it's stauts from reading to read
 // Route::post('/book/update_book_status' , [BookController::class , 'update_book_status']);
 
 // Route::get('/shelf/{shelf}/books/{order}/{page}' , [BookController::class , 'shelf_books']);
 
-// Route::get('/publisher/{publisher}/books/{order}/{page}' , [BookController::class , 'publisher_books']);
 // Route::get('/contributor/{contributor}/books/{type}/{order}/{page}' , [BookController::class , 'contributor_books']);
 // Route::get('/book/{book}/shelves' , [BookController::class , 'shelves']);
 
@@ -68,7 +69,8 @@ Route::get('/publishers/{order}/{page}' , [PublisherController::class , 'all']);
 // ->name('publishers');
 Route::get('/publisher/{user}' , [PublisherController::class , 'one']);
 // ->name('publisher');
-// Route::get('/publisher/{publisher}/contributors/{contributor_type}/{order}/{page}' , [PublisherController::class , 'contributors']);
+Route::get('/publisher/{user}/contributors/{action}/{order}/{page}' , [PublisherController::class , 'contributors']);
+
 
 
 // // like
@@ -83,7 +85,7 @@ Route::get('/publisher/{user}' , [PublisherController::class , 'one']);
 // Route::get('/post/{post}' , [PostController::class , 'show'])
 // ->name('post');
 // Route::get('/posts/{type}/{id}/{page}' , [PostController::class , 'get_posts']);
-// Route::get('/user/{user}/posts/{page}' , [PostController::class , 'posts_by']);
+Route::get('/user/{user}/{type}/{page}' , [PostController::class , 'posts']);
 
 
 // // comment
@@ -117,10 +119,9 @@ Route::get('/publisher/{user}' , [PublisherController::class , 'one']);
 // Route::post('/follow_add' , [FollowController::class , 'add']);
 // Route::post('/follow_delete' , [FollowController::class , 'delete']);
 // Route::post('/follow_update' , [FollowController::class , 'update']);
-// Route::get('/{following_type}/{following_id}/followers/{page}' , [FollowController::class , 'followers']);
-// Route::get('/{follower_id}/followings/{following_type}/{page}' , [FollowController::class , 'followings']);
-
-
+Route::get('/user/{user}/{kind}/{type}/{page}' , [FollowController::class , 'follower_following']);
+Route::get('/user/{user}/follows/total_count' , [ FollowController::class , 'total_count' ]);
+Route::get('/user/{user}/{kind}/type_count' , [ FollowController::class , 'type_count' ]);
 // // suggestion
 // Route::post('/suggestion/add' , [SuggestionController::class , 'add']);
 // Route::post('/suggestion/delete' , [SuggestionController::class , 'delete']);
@@ -129,3 +130,7 @@ Route::get('/publisher/{user}' , [PublisherController::class , 'one']);
 
 // // wall
 // Route::get('/timeline/{page}' , [TimelineController::class , 'all']);
+
+// social media
+Route::get('/user/{user}/get' , [ SocialMediaController::class , 'get' ]);
+

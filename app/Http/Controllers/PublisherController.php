@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\BookResource;
+use App\Http\Resources\UserResource;
+use App\Models\BookHelp;
+use App\Models\Publisher;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -11,15 +15,16 @@ class PublisherController extends Controller
     public function all($order , $page)
     {
 
+        $offset = ($page - 1) * 20;
+
         $asc_desc = 'desc';
 
         if ($order == 'name') {
             $asc_desc = 'asc';
         }
 
-        $offset = ($page - 1) * 20;
-
-        $publishers = DB::table('main_publisher')
+        $publishers = DB::table('user_help')
+        ->where('type' , 'publisher')
         ->orderBy($order , $asc_desc)
         ->offset($offset)
         ->limit(20)
@@ -47,36 +52,41 @@ class PublisherController extends Controller
             'info' => [
                 'name' => $user->name,
             ],
-            'followers' => $user->followers->count(),
             'books' => $user->books->count(),
             'contributors_num' => $contributors_num
         ];
         
     }
 
-    // public function contributors(MainPublisher $publisher , $contributor_type , $order , $page)
-    // {
-
-    //     $offset = ($page - 1) * 20;
-    //     $asc_desc = 'desc';
-
-    //     if ($order == 'name') {
-    //         $asc_desc = 'asc';
-    //     }
-
-    //     $contributor_ids = $publisher
-    //     ->contributors()
-    //     ->where('action' , $contributor_type)
-    //     ->pluck('contributor_id');
+    public function contributors(User $user , $action , $order , $page)
+    {
+        // action: contributor types e.g. writers / translators ...
         
-    //     $contributors = MainContributor::whereIn('id' , $contributor_ids->toArray())
-    //     ->orderBy($order , $asc_desc)
-    //     ->offset($offset)
-    //     ->limit(20)
-    //     ->get();
+        $offset = ($page - 1) * 20;
+        $asc_desc = 'desc';
+        
+        if ($order == 'name') {
+            $asc_desc = 'asc';
+        }
+        
+        $books_id = $user->books()->pluck('books.id');
 
-    //     return MainContributorResource::collection($contributors);
+        $contributors_id = DB::table('book_user')
+        ->whereIn('book_id' , $books_id->toArray())
+        ->where('action' , $action)
+        ->pluck('user_id');
 
-    // }
+        $contributors = DB::table('user_help')
+        ->whereIn('user_id' , $contributors_id->toArray())
+        ->offset($offset)
+        ->limit(20)
+        ->get();
+
+        return $contributors;
+
+    }
+
+
+  
 
 }
