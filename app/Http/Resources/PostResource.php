@@ -15,16 +15,6 @@ class PostResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
-            'id' => $this->id ,
-            'writer' => new UserResource(User::find($this->user_id)),
-            'title' => $this->title,
-            'body' => $this->body,
-            'created_at' => $this->created_at,
-            'numbers' => [
-                'like' => $this->likes->count(),
-                'comment' => $this->comments->count(),
-            ]
-        ];
+      
     }
 }

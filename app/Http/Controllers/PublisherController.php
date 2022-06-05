@@ -15,18 +15,12 @@ class PublisherController extends Controller
     public function all($order , $page)
     {
 
-        $offset = ($page - 1) * 20;
-
-        $asc_desc = 'desc';
-
-        if ($order == 'name') {
-            $asc_desc = 'asc';
-        }
+        $order_page = $this->order_page($order , $page);
 
         $publishers = DB::table('user_help')
         ->where('type' , 'publisher')
-        ->orderBy($order , $asc_desc)
-        ->offset($offset)
+        ->orderBy($order , $order_page['asc_desc'])
+        ->offset($order_page['offset'])
         ->limit(20)
         ->get();
 
@@ -61,32 +55,41 @@ class PublisherController extends Controller
     public function contributors(User $user , $action , $order , $page)
     {
         // action: contributor types e.g. writers / translators ...
-        
-        $offset = ($page - 1) * 20;
-        $asc_desc = 'desc';
-        
-        if ($order == 'name') {
-            $asc_desc = 'asc';
-        }
+
+        $order_page = $this->order_page($order , $page);
         
         $books_id = $user->books()->pluck('books.id');
 
-        $contributors_id = DB::table('book_user')
-        ->whereIn('book_id' , $books_id->toArray())
+        $contributors = DB::table('book_user')
+        ->leftJoin('user_help' , 'user_help.user_id' , '=' , 'book_user.user_id')
+        ->whereIn('book_user.book_id' , $books_id->toArray())
         ->where('action' , $action)
-        ->pluck('user_id');
-
-        $contributors = DB::table('user_help')
-        ->whereIn('user_id' , $contributors_id->toArray())
-        ->offset($offset)
+        ->distinct()
+        ->orderBy($order , $order_page['asc_desc'])
+        ->offset($order_page['offset'])
         ->limit(20)
         ->get();
+
 
         return $contributors;
 
     }
 
 
-  
+    public function order_page($order , $page)
+    {
+
+        $asc_desc = 'desc';
+
+        if ($order == 'name') {
+            $asc_desc = 'asc';
+        }
+
+        return [
+            'offset' =>  $offset = ($page - 1) * 20,
+            'asc_desc' => $asc_desc
+        ];
+    }
+
 
 }

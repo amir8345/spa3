@@ -13,6 +13,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PublisherController;
 use App\Http\Controllers\ContributorController;
 use App\Http\Controllers\Crawler\BookResources;
+use App\Http\Controllers\ReaderController;
 use App\Http\Controllers\SocialMediaController;
 use App\Http\Controllers\SuggestionController;
 use App\Http\Controllers\TimelineController;
@@ -38,15 +39,15 @@ use App\Http\Controllers\TimelineController;
 
 
 // // book
-// Route::get('/books/{order}/{page}' , [BookController::class , 'get_books'])
+Route::get('/books/{order}/{page}' , [BookController::class , 'all']);
 // ->name('books');
-// Route::get('/book/{book}' , [BookController::class , 'one'])
+Route::get('/book/{book}' , [BookController::class , 'one']);
 // ->name('book');
 // Route::get('/book/{book}/scores' , [BookController::class , 'scores']);
 
 // Route::post('/book/add_to_shelf' , [BookController::class , 'add_to_shelf']);
 // Route::post('/book/remove_from_shelf' , [BookController::class , 'remove_from_shelf']);
-Route::get('/publisher/{user}/books/{order}/{page}' , [BookController::class , 'books']);
+Route::get('/user/{user}/books/{action}/{order}/{page}' , [BookController::class , 'books']);
 
 // // * when a user has finished reading a book and want to change it's stauts from reading to read
 // Route::post('/book/update_book_status' , [BookController::class , 'update_book_status']);
@@ -58,9 +59,9 @@ Route::get('/publisher/{user}/books/{order}/{page}' , [BookController::class , '
 
 
 // // contributor 
-// Route::get('/contributors/{type}/{order}/{page}' , [ContributorController::class , 'get_contributors'])
+Route::get('/contributors/{order}/{page}' , [ContributorController::class , 'all']);
 // ->name('contributors');
-// Route::get('/contributor/{contributor}' , [ContributorController::class , 'one'])
+Route::get('/contributor/{user}' , [ContributorController::class , 'one']);
 // ->name('contributor');
 
 
@@ -85,7 +86,7 @@ Route::get('/publisher/{user}/contributors/{action}/{order}/{page}' , [Publisher
 // Route::get('/post/{post}' , [PostController::class , 'show'])
 // ->name('post');
 // Route::get('/posts/{type}/{id}/{page}' , [PostController::class , 'get_posts']);
-Route::get('/user/{user}/{type}/{page}' , [PostController::class , 'posts']);
+Route::get('/{kind}/{id}/posts/{type}/{page}' , [PostController::class , 'posts']);
 
 
 // // comment
@@ -95,7 +96,7 @@ Route::get('/user/{user}/{type}/{page}' , [PostController::class , 'posts']);
 // Route::get('/comment/{comment}' , [CommentController::class , 'show'])
 // ->name('comment');
 // Route::get('/comments/{type}/{id}/{page}' , [CommentController::class , 'get_comments']);
-// Route::get('/user/{user}/comments/{page}' , [CommentController::class , 'comments_by']);
+Route::get('/{kind}/{id}/comments/{type}/{page}' , [CommentController::class , 'comments']);
 
 
 // // shelf
@@ -107,7 +108,7 @@ Route::get('/user/{user}/{type}/{page}' , [PostController::class , 'posts']);
 // Route::get('/user/{user}/library' , [ShelfController::class , 'library'])
 // ->name('library');
 // Route::get('/user/{user}/shelves' , [ShelfController::class , 'shelves']);
-
+Route::get('/book/{book}/shelves' , [ShelfController::class , 'shelves']);
 
 // // score
 // Route::post('/score/add_or_update' , [ScoreController::class , 'add_or_update_score']);
@@ -127,10 +128,13 @@ Route::get('/user/{user}/{kind}/type_count' , [ FollowController::class , 'type_
 // Route::post('/suggestion/delete' , [SuggestionController::class , 'delete']);
 // Route::post('/suggestion/update' , [SuggestionController::class , 'update']);
 // Route::get('/user/{user}/suggestions/{page}' , [SuggestionController::class , 'all']);
+Route::get('/book/{book}/suggestions' , [SuggestionController::class , 'book_suggestions']);
 
 // // wall
 // Route::get('/timeline/{page}' , [TimelineController::class , 'all']);
 
 // social media
-Route::get('/user/{user}/get' , [ SocialMediaController::class , 'get' ]);
+Route::get('/user/{user}/social_medias' , [ SocialMediaController::class , 'social_medias' ]);
 
+// reader
+Route::get('/readers/{order}/{page}' , [ReaderController::class , 'all']);

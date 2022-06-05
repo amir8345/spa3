@@ -25,11 +25,11 @@ class BookResource extends JsonResource
             'title' => $this->title,
             'contributors' => $contributors,
             'numbers' => [
-                'score' => $this->score,
-                'debate' => $this->debate,
-                'read' => $this->read,
-                'want' => $this->want,
-                'reading' => $this->reading,
+                'score' => $this->book_numbers->score,
+                'debate' => $this->book_numbers->debate,
+                'read' => $this->book_numbers->read,
+                'want' => $this->book_numbers->want,
+                'reading' => $this->book_numbers->reading,
             ]
         ];
     }

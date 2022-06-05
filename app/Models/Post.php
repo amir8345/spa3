@@ -16,7 +16,7 @@ class Post extends Model
         return $this->morphMany(Like::class , 'liked');
     }
 
-    public function comments()
+    public function comments_on()
     {
         return $this->morphMany(Comment::class , 'commented');
     }

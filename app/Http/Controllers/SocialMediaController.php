@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class SocialMediaController extends Controller
 {
-    public function get(User $user)
+    public function social_medias(User $user)
     {
         return $user->social_medias;
     }

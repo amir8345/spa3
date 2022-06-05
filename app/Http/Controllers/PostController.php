@@ -2,21 +2,50 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\PostResource;
+use App\Models\Book;
 use App\Models\User;
-use Illuminate\Http\Request;
+use App\Http\Resources\PostResource;
+use App\Http\Resources\UserResource;
 
 class PostController extends Controller
 {
-    public function posts(User $user , $type, $page)
+    public function posts($kind , $id , $type, $page)
     {
-       
+        // kind: book / user
+        // $type : posts_on / posts_by
+        
+        if ($kind == 'book') {
+            $model = Book::find($id);
+        }
+        
+        if ($kind == 'user') {
+            $model = User::find($id);
+        }
+        
         $offset = ($page - 1) * 20;
+        
+        $posts = $model->$type()->offset($offset)->limit(20)->get();
+        
+        foreach ($posts as $post) {
+            
+            $posts_details[] = [
+                'id' => $post->id ,
+                'writer' => new UserResource(User::find($post->user_id)),
+                'title' => $post->title,
+                'body' => $post->body,
+                'posted_type' => $post->posted_type,
+                'posted_id' => $post->posted_id,
+                'created_at' => $post->created_at,
+                'numbers' => [
+                    'like' => $post->likes->count(),
+                    'comment' => $post->comments_on->count(),
+                    ]
+                ];
+            }
 
-        $posts = $user->$type()->offset($offset)->limit(20)->get();
-
-        return PostResource::collection($posts);
-       
+            return $posts_details;
+            
+        }
+        
     }
     
-}

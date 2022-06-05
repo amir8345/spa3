@@ -13,6 +13,7 @@ use App\Models\Publisher;
 use App\Models\Suggestion;
 use App\Models\Contributor;
 use App\Models\SocialMedia;
+use App\Models\ReaderNumbers;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -63,11 +64,6 @@ class User extends Authenticatable
         return $this->belongsToMany(Book::class);
     }
 
-    public function comments()
-    {
-        return $this->hasMany(Comment::class);
-    }
-
     public function publisher()
     {
         return $this->hasOne(Publisher::class);
@@ -107,6 +103,16 @@ class User extends Authenticatable
     {
         return $this->morphMany(Post::class , 'posted');
     }
+
+    public function comments_by()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function comments_on()
+    {
+        return $this->morphMany(Comment::class , 'commented');
+    }
     
     public function scores()
     {
@@ -126,6 +132,11 @@ class User extends Authenticatable
     public function suggestions()
     {
         return $this->hasMany(Suggestion::class);
+    }
+
+    public function reader_numbers()
+    {
+        return $this->hasOne(ReaderNumbers::class);
     }
 
 }

@@ -1,6 +1,6 @@
 
 SELECT 
-books.* , 
+books.id AS book_id , 
 score_table.score , 
 suggestion_table.suggestions ,
 debate_table.debate ,
