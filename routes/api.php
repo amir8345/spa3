@@ -113,7 +113,7 @@ Route::get('/book/{book}/shelves' , [ShelfController::class , 'shelves']);
 // // score
 // Route::post('/score/add_or_update' , [ScoreController::class , 'add_or_update_score']);
 // Route::post('/score/delete' , [ScoreController::class , 'delete']);
-// Route::get('/user/{user}/scores/{page}' , [ScoreController::class , 'user_scores']);
+Route::get('/scores/{type}/{id}/{page}' , [ScoreController::class , 'scores']);
 
 
 // // follow
@@ -127,8 +127,7 @@ Route::get('/user/{user}/{kind}/type_count' , [ FollowController::class , 'type_
 // Route::post('/suggestion/add' , [SuggestionController::class , 'add']);
 // Route::post('/suggestion/delete' , [SuggestionController::class , 'delete']);
 // Route::post('/suggestion/update' , [SuggestionController::class , 'update']);
-// Route::get('/user/{user}/suggestions/{page}' , [SuggestionController::class , 'all']);
-Route::get('/book/{book}/suggestions' , [SuggestionController::class , 'book_suggestions']);
+Route::get('/suggestions/{type}/{id}/{page}' , [SuggestionController::class , 'suggestions']);
 
 // // wall
 // Route::get('/timeline/{page}' , [TimelineController::class , 'all']);
@@ -138,3 +137,4 @@ Route::get('/user/{user}/social_medias' , [ SocialMediaController::class , 'soci
 
 // reader
 Route::get('/readers/{order}/{page}' , [ReaderController::class , 'all']);
+Route::get('/reader/{user}' , [ReaderController::class , 'one']);

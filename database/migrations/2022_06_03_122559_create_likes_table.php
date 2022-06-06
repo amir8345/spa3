@@ -18,7 +18,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(User::class);
             $table->morphs('liked');
-            $table->timestamps();
+            $table->timestamp('created_at');
         });
     }
 

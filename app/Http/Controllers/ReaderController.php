@@ -25,6 +25,20 @@ class ReaderController extends Controller
 
     }
 
+
+    public function one(User $user)
+    {
+        return [
+            'info' => $user->reader,
+            'numbers' => [
+                'posts_by' => $user->posts_by()->count(),
+                'comments_by' => $user->comments_by()->count(),
+                'scores' => $user->scores()->count(),
+                'suggestions' => $user->suggestions()->count(),
+            ],
+        ];
+    }
+
     public function order_page($order , $page)
     {
 

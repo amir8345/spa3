@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Reader extends Model
 {
     use HasFactory;
+
+    protected $hidden = ['id' , 'updated_at'];
 }

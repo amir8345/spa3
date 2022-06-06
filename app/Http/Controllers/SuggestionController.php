@@ -6,6 +6,7 @@ use App\Models\Book;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
+use App\Http\Resources\SuggestionResource;
 
 class SuggestionController extends Controller
 {
@@ -15,31 +16,29 @@ class SuggestionController extends Controller
     }
 
 
-    // return suggesions made by users about a book
-    public function book_suggestions(Book $book)
+    // return suggestions made by users about a book or all suggestions a user had made
+    public function suggestions($type , $id , $page)
     {
 
-        $suggestions = $book->suggestions()->where('public' , true)->get();
-        $suggestions_details = [];
-
-        foreach ($suggestions as $suggestion) {
-
-            $suggestions_details[] = [
-                'maker' => new UserResource( User::find($suggestion->user_id) ),
-                'receiver' => $suggestion->receiver,                
-                'reason' => $suggestion->reason,                
-            ];
-
+        if ($type == 'user') {
+            $model = User::find($id);
+        }
+        
+        if ($type == 'book') {
+            $model = Book::find($id);
         }
 
-        return $suggestions_details;
+        $suggestions = $model->suggestions()
+        ->where('public' , true)
+        ->orderByDesc('created_at')
+        ->offset( ($page - 1 ) * 20)  
+        ->limit(20)
+        ->get();
+
+        return SuggestionResource::collection($suggestions); 
+
 
     }
 
-    // return all public suggestions a user had made
-    public function user_suggestions(User $user)
-    {
-        
-    }
 
 }

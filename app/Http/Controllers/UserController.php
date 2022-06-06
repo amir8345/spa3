@@ -12,10 +12,6 @@ use App\Http\Resources\CommentResource;
 
 class UserController extends Controller
 {
-    public function one(User $user)
-    {
-        
 
 
-    }
 }
