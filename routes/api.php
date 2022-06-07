@@ -56,7 +56,7 @@ Route::get('/user/{user}/books/{action}/{order}/{page}' , [BookController::class
 
 // Route::get('/contributor/{contributor}/books/{type}/{order}/{page}' , [BookController::class , 'contributor_books']);
 // Route::get('/book/{book}/shelves' , [BookController::class , 'shelves']);
-
+Route::get('/book/{book}/timeline/{page}' , [BookController::class , 'timeline']);
 
 // // contributor 
 Route::get('/contributors/{order}/{page}' , [ContributorController::class , 'all']);
@@ -138,3 +138,6 @@ Route::get('/user/{user}/social_medias' , [ SocialMediaController::class , 'soci
 // reader
 Route::get('/readers/{order}/{page}' , [ReaderController::class , 'all']);
 Route::get('/reader/{user}' , [ReaderController::class , 'one']);
+
+// timeline
+Route::get('/user/{user}/timeline/{page}' , [UserController::class , 'timeline']);

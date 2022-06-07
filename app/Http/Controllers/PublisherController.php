@@ -86,10 +86,14 @@ class PublisherController extends Controller
         }
 
         return [
-            'offset' =>  $offset = ($page - 1) * 20,
+            'offset' => ($page - 1) * 20,
             'asc_desc' => $asc_desc
         ];
     }
+
+
+
+
 
 
 }

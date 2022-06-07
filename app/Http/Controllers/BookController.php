@@ -77,6 +77,20 @@ class BookController extends Controller
 
     }
 
+    public function timeline(Book $book, $page)
+    {
+        $timeline = DB::table('timeline')
+        ->where('type' , 'book')
+        ->where('type_id' , $book->id)
+        ->orderByDesc('created_at')
+        ->offset(($page - 1) * 20)
+        ->limit(20)
+        ->get();
+
+        return $timeline;
+    }
+
+
 
     public function order_page($order , $page)
     {
@@ -88,7 +102,7 @@ class BookController extends Controller
         }
 
         return [
-            'offset' => $offset = ($page - 1) * 20,
+            'offset' => ($page - 1) * 20,
             'asc_desc' => $asc_desc
         ];
 
