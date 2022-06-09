@@ -43,6 +43,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'pivot'
     ];
 
     /**
@@ -53,6 +54,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+    public function scopeOfType($query , $type)
+    {
+        $ids = BookUser::select('user_id')->where('action' , $type)->get();
+        return $query->whereIn('users.id' , $ids->toArray());
+    }
+
 
     public function book_help()
     {
@@ -139,6 +148,5 @@ class User extends Authenticatable
         return $this->hasOne(ReaderNumbers::class);
     }
 
-    
 
 }

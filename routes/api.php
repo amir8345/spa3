@@ -56,10 +56,9 @@ Route::get('/user/{user}/books/{action}/{order}/{page}' , [BookController::class
 
 // Route::get('/contributor/{contributor}/books/{type}/{order}/{page}' , [BookController::class , 'contributor_books']);
 // Route::get('/book/{book}/shelves' , [BookController::class , 'shelves']);
-Route::get('/book/{book}/timeline/{page}' , [BookController::class , 'timeline']);
 
 // // contributor 
-Route::get('/contributors/{order}/{page}' , [ContributorController::class , 'all']);
+Route::get('/contributors/{type}/{order}/{page}' , [ContributorController::class , 'all']);
 // ->name('contributors');
 Route::get('/contributor/{user}' , [ContributorController::class , 'one']);
 // ->name('contributor');
@@ -99,16 +98,15 @@ Route::get('/{kind}/{id}/posts/{type}/{page}' , [PostController::class , 'posts'
 Route::get('/{kind}/{id}/comments/{type}/{page}' , [CommentController::class , 'comments']);
 
 
-// // shelf
+// shelf
 // Route::post('/shelf/add' , [ShelfController::class , 'add']);
 // Route::post('/shelf/delete' , [ShelfController::class , 'delete']);
 // Route::post('/shelf/update' , [ShelfController::class , 'update']);
-// Route::get('/shelf/{shelf}/{page}' , [ShelfController::class , 'show'])
+Route::get('/shelf/{shelf}/books/{page}' , [ShelfController::class , 'books']);
 // ->name('shelf');
-// Route::get('/user/{user}/library' , [ShelfController::class , 'library'])
+Route::get('/user/{user}/library' , [ShelfController::class , 'library']);
 // ->name('library');
 // Route::get('/user/{user}/shelves' , [ShelfController::class , 'shelves']);
-Route::get('/book/{book}/shelves' , [ShelfController::class , 'shelves']);
 
 // // score
 // Route::post('/score/add_or_update' , [ScoreController::class , 'add_or_update_score']);
@@ -129,8 +127,6 @@ Route::get('/user/{user}/{kind}/type_count' , [ FollowController::class , 'type_
 // Route::post('/suggestion/update' , [SuggestionController::class , 'update']);
 Route::get('/suggestions/{type}/{id}/{page}' , [SuggestionController::class , 'suggestions']);
 
-// // wall
-// Route::get('/timeline/{page}' , [TimelineController::class , 'all']);
 
 // social media
 Route::get('/user/{user}/social_medias' , [ SocialMediaController::class , 'social_medias' ]);
@@ -140,4 +136,7 @@ Route::get('/readers/{order}/{page}' , [ReaderController::class , 'all']);
 Route::get('/reader/{user}' , [ReaderController::class , 'one']);
 
 // timeline
-Route::get('/user/{user}/timeline/{page}' , [UserController::class , 'timeline']);
+Route::get('/timeline/{user}/{kind}/{page}' , [TimelineController::class , 'user_timeline']);
+Route::get('/book/{book}/timeline/{kind}/{page}' , [TimelineController::class , 'book_timeline']);
+Route::get('/user/{user}/homepage/{page}' , [TimelineController::class , 'homepage']);
+Route::get('/user/{user}/notification/{page}' , [TimelineController::class , 'notification']);

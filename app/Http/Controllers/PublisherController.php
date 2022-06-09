@@ -6,6 +6,7 @@ use App\Http\Resources\BookResource;
 use App\Http\Resources\UserResource;
 use App\Models\BookHelp;
 use App\Models\Publisher;
+use App\Models\SocialMedia;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -42,9 +43,11 @@ class PublisherController extends Controller
 
         $contributors_num = $contributors->countBy()->all();
 
+
         return [
             'info' => [
                 'name' => $user->name,
+                'social_medias' => $user->social_medias
             ],
             'books' => $user->books->count(),
             'contributors_num' => $contributors_num

@@ -2,36 +2,50 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\BookResource;
 use App\Models\Book;
 use App\Models\User;
+use App\Models\Shelf;
+use App\Models\BookShelf;
 use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
 
 class ShelfController extends Controller
 {
- 
-    // receive a book and tell us how many shelves has that book
-    public function shelves_count(Book $book)
+    
+    public function library(User $user)
     {
-        return $book->shelves->count();
-    }
 
+        $library = [];
 
-    public function shelves(Book $book)
-    {
-        
-        $shelves = [];
-
-        foreach ($book->shelves as $shelf) {
-            $shelves[] = [
+        foreach ($user->shelves as $shelf) {
+            $library[] = [
                 'id' => $shelf->id,
-                'creator' => new UserResource( User::find($shelf->user_id) ) ,
                 'name' => $shelf->name,
-                'created_at' => $shelf->created_at,
+                'books' => $shelf->books()->count(),
             ];
         }
 
-        return $shelves;
+        $last_update = BookShelf::
+        whereIn('shelf_id' , $user->shelves()->pluck('shelves.id')->toArray())
+        ->orderBy('created_at')
+        ->first()
+        ->value('created_at');
+
+        return [ 'library' => $library , 'last_update' => $last_update];
+
     }
+
+
+    public function books(Shelf $shelf , $page)
+    {
+        $books = $shelf->books()
+        ->offset( ($page - 1) * 20 )
+        ->limit(20)
+        ->get();
+
+        return BookResource::collection($books);
+    }
+  
 
 }

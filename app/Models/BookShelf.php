@@ -5,11 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SocialMedia extends Model
+class BookShelf extends Model
 {
     use HasFactory;
 
-    protected $table = 'social_medias';
+    protected $table = 'book_shelf';
 
-    protected $hidden = ['id' , 'user_id'];
 }

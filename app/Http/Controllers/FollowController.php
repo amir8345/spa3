@@ -7,6 +7,7 @@ use Spatie\FlareClient\Api;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Resources\UserResource;
+use App\Models\BookUser;
 
 class FollowController extends Controller
 {
@@ -22,39 +23,35 @@ class FollowController extends Controller
     {
         // kind: followers or followings
 
-        $types = ['publishers' , 'readers' , 'contributors'];
-        $result = [];
+        $cnotributors = $this->make_follow_query($user , $kind)
+        ->addSelect( 'users.id' , 'book_user.action' )
+        ->distinct()
+        ->get();
 
-        foreach ($types as $type) {
-            $type_ids = DB::table($type)->pluck('user_id');
-            $result[$type] = $user->$kind()->whereIn('users.id' , $type_ids->toArray())->count();
+        foreach ($cnotributors as $cnotributor) {
+            $contributors_count[] = $cnotributor['action'];
         }
 
-        return $result;
+        return collect($contributors_count)->countBy();
     }
 
-    public function follower_following(User $user , $kind , $type , $page)
+    public function follower_following(User $user , $kind , $action , $page)
     {
-
-        // kind: followers or following
-        // type: publisher / contributor / reader
-
-        $offset = ($page - 1) * 20;
-
-        $type_ids = DB::table($type)->orderByDesc('created_at')->pluck('user_id');
-
-        $kind_ids = $user->$kind()
-        ->whereIn('users.id' , $type_ids->toArray())
-        ->offset($offset)
+        $cnotributors = $this->make_follow_query($user , $kind)
+        ->where('book_user.action' , $action)
+        ->distinct()
+        ->offset( ($page - 1) * 20 )
         ->limit(20)
-        ->pluck('users.id');
-        
-        return UserResource::collection(User::whereIn('id' , $kind_ids->toArray())->get());
+        ->get();
+
+        return $cnotributors;
 
     }
 
 
-
-
+    public function make_follow_query(User $user , $kind)
+    {
+        return $user->$kind()->join('book_user' , 'users.id' , '=' , 'book_user.user_id');
+    }
 
 }

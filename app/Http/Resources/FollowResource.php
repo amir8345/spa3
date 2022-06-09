@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use App\Models\User;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CommentResource extends JsonResource
+class FollowResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,14 +15,9 @@ class CommentResource extends JsonResource
      */
     public function toArray($request)
     {
-
         return [
-            'user' => new UserResource( User::find( $this->user_id ) ),
-            'commented_type' => $this->commented_type,
-            'commented_id' => $this->commented_id,
-            'body' => $this->body,
-            'created_at' => $this->created_at,
+            'follower' => new UserResource( User::find( $this->follower ) ),
+            'following' => new UserResource( User::find( $this->following ) ),
         ];
-      
     }
 }

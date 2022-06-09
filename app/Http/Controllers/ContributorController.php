@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 class ContributorController extends Controller
 {
-    public function all($order , $page)
+    public function all($type , $order , $page)
     {
 
         $offset = ($page - 1) * 20;
@@ -19,8 +19,8 @@ class ContributorController extends Controller
             $asc_desc = 'asc';
         }
 
-        $contributors = DB::table('user_help')
-        ->whereNot('type' , 'publisher')
+        $contributors = User::ofType($type)
+        ->join('user_help' , 'users.id' , '=' , 'user_help.user_id')
         ->orderBy($order , $asc_desc)
         ->offset($offset)
         ->limit(20)
@@ -38,7 +38,8 @@ class ContributorController extends Controller
         return [
             'info' => [
                 'name' => $user->name,
-                'birth' => $user->contributor->birth
+                'birth' => $user->contributor->birth,
+                'social_medias' => $user->social_medias()
             ],
             'books_num' => $actions->countBy()->all()
         ];

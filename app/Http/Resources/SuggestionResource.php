@@ -17,21 +17,22 @@ class SuggestionResource extends JsonResource
     public function toArray($request)
     {
     
-        return [
+        // return [
 
-            'user' => $this->when(request('type') == 'book' , function() {
-                return new UserResource( User::find($this->user_id) );
-            }),
+        //     'user' => $this->when(request('type') == 'book' , function() {
+        //         return new UserResource( User::find($this->user_id) );
+        //     }),
             
-            'book' => $this->when(request('type') == 'user' , function() {
-                return new BookResource( Book::find($this->book_id) );
-            }),
+        //     'book' => $this->when(request('type') == 'user' , function() {
+        //         return new BookResource( Book::find($this->book_id) );
+        //     }),
 
-            'receiver' => $this->receiver,
-            'reason' => $this->reason,
-            'created_at' => $this->created_at,
+        //     'receiver' => $this->receiver,
+        //     'reason' => $this->reason,
+        //     'created_at' => $this->created_at,
 
-        ];
+        // ];
+
     
     }
 }
