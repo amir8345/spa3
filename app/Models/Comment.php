@@ -12,7 +12,7 @@ class Comment extends Model
 
     protected $fillable = ['body'];
 
-    public function comments_on()
+    public function comments()
     {
         return $this->morphMany(Comment2::class , 'commented');
     }

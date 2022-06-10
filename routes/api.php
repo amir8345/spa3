@@ -82,7 +82,7 @@ Route::get('/publisher/{user}/contributors/{action}/{order}/{page}' , [Publisher
 // Route::post('/post/add' , [PostController::class , 'add']);
 // Route::post('/post/delete' , [PostController::class , 'delete']);
 // Route::post('/post/update' , [PostController::class , 'update']);
-// Route::get('/post/{post}' , [PostController::class , 'show'])
+Route::get('/post/{post}' , [PostController::class , 'one']);
 // ->name('post');
 // Route::get('/posts/{type}/{id}/{page}' , [PostController::class , 'get_posts']);
 Route::get('/{kind}/{id}/posts/{type}/{page}' , [PostController::class , 'posts']);
@@ -92,7 +92,7 @@ Route::get('/{kind}/{id}/posts/{type}/{page}' , [PostController::class , 'posts'
 // Route::post('/comment/add' , [CommentController::class , 'add']);
 // Route::post('/comment/delete' , [CommentController::class , 'delete']);
 // Route::post('/comment/update' , [CommentController::class , 'update']);
-// Route::get('/comment/{comment}' , [CommentController::class , 'show'])
+Route::get('/comment/{comment}' , [CommentController::class , 'one']);
 // ->name('comment');
 // Route::get('/comments/{type}/{id}/{page}' , [CommentController::class , 'get_comments']);
 Route::get('/{kind}/{id}/comments/{type}/{page}' , [CommentController::class , 'comments']);

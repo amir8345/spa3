@@ -131,7 +131,30 @@ class TimelineController extends Controller
                     break;
                 
                 case 'comments':
-                    $timeline_details[] = ['comment' => new CommentResource( Comment::find( $event->id ) ) ];
+
+                    $comment = Comment::find( $event->id );
+
+                    if ($comment->commented_type == 'user') {
+                        $parent = new UserResource( User::find( $comment->commented_id ) );
+                    }
+                   
+                    if ($comment->commented_type == 'book') {
+                        $parent = new BookResource( Book::find( $comment->commented_id ) );
+                    }
+                   
+                    if ($comment->commented_type == 'post') {
+                        $parent = new PostResource( Post::find( $comment->commented_id ) );
+                    }
+                   
+                    if ($comment->commented_type == 'comment') {
+                        $parent = new CommentResource( Comment::find( $comment->commented_id ) );
+                    }
+
+                    $timeline_details[] = [
+                        'comment' => new CommentResource( $comment ) ,
+                        'parent' => $parent,
+                    ];
+
                     break;
                 
                 case 'posts':

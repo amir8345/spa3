@@ -24,7 +24,7 @@ WHEN commented_type = 'post' OR commented_type = 'comment' THEN
 WHEN commented_type = 'book' OR commented_type = 'user' THEN commented_id
 END 
 as 'type_id',
-'commentes' as 'table' , id , created_at
+'comments' as 'table' , id , created_at
 
 FROM comments
 
