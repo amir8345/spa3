@@ -8,9 +8,7 @@
 </head>
 <body>
 
-    <div id="app">
-        <welcome />
-    </div>
+    <div id="app"></div>
 
     <script src="/js/app.js"></script>
 </body>
