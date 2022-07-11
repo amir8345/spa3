@@ -1,8 +1,6 @@
 
-import Book from "./components/Book.vue";
-import About from "./components/About.vue";
+import AllBooks from "./pages/AllBooks.vue";
 
 export const routes = [
-    { path: '/', component: Book },
-    { path: '/about', component: About },
+    { path: '/books', component: AllBooks },
   ];

@@ -2,11 +2,9 @@ import './bootstrap';
 
 import { createApp } from "vue";
 import { createPinia } from "pinia";
-import { routes } from "./routes";
-
-import App from "./App.vue";
 import { createRouter, createWebHistory } from 'vue-router';
-
+import App from "./App.vue";
+import { routes } from "./routes";
 
 
 const router = createRouter({

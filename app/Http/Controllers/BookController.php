@@ -18,6 +18,8 @@ class BookController extends Controller
     public function all($order , $page)
     {
 
+        // sleep(2);
+
         $request_info = $this->order_page($order , $page);
 
         $books = Book::join('book_numbers' , 'books.id' , '=' , 'book_numbers.book_id')

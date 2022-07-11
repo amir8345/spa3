@@ -25,7 +25,7 @@ class PublisherController extends Controller
         ->limit(20)
         ->get();
 
-        return $publishers;
+        return ['data' => $publishers ];
 
     }
 

@@ -20,7 +20,7 @@ LEFT JOIN
 
 (SELECT suggestions.book_id , COUNT(suggestions.book_id) AS suggestions FROM suggestions GROUP BY suggestions.book_id) AS suggestion_table
 
-ON books.id = suggestion_table.suggestions
+ON books.id = suggestion_table.book_id
 
 LEFT JOIN 
 

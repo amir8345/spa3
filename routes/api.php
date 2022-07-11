@@ -58,7 +58,7 @@ Route::get('/user/{user}/books/{action}/{order}/{page}' , [BookController::class
 // Route::get('/book/{book}/shelves' , [BookController::class , 'shelves']);
 
 // // contributor 
-Route::get('/contributors/{type}/{order}/{page}' , [ContributorController::class , 'all']);
+Route::get('/contributors/{action}/{order}/{page}' , [ContributorController::class , 'all']);
 // ->name('contributors');
 Route::get('/contributor/{user}' , [ContributorController::class , 'one']);
 // ->name('contributor');

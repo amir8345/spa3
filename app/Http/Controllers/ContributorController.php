@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 class ContributorController extends Controller
 {
-    public function all($type , $order , $page)
+    public function all($action , $order , $page)
     {
 
         $offset = ($page - 1) * 20;
@@ -19,14 +19,14 @@ class ContributorController extends Controller
             $asc_desc = 'asc';
         }
 
-        $contributors = User::ofType($type)
+        $contributors = User::ofType($action)
         ->join('user_help' , 'users.id' , '=' , 'user_help.user_id')
         ->orderBy($order , $asc_desc)
         ->offset($offset)
         ->limit(20)
         ->get();
 
-        return $contributors;
+        return ['data' => $contributors];
     }
 
     public function one(User $user)
