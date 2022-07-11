@@ -21,7 +21,7 @@ class ReaderController extends Controller
         ->limit(20)
         ->get();
 
-        return $readers;
+        return ['data' => $readers];
 
     }
 
