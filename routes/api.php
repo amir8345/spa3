@@ -118,7 +118,10 @@ Route::get('/scores/{type}/{id}/{page}' , [ScoreController::class , 'scores']);
 // Route::post('/follow_add' , [FollowController::class , 'add']);
 // Route::post('/follow_delete' , [FollowController::class , 'delete']);
 // Route::post('/follow_update' , [FollowController::class , 'update']);
-Route::get('/user/{user}/{kind}/{type}/{page}' , [FollowController::class , 'follower_following']);
+
+// *! this route has conflict with user_timeline route (line 142)
+// Route::get('/user/{user}/{kind}/{action}/{page}' , [FollowController::class , 'follower_following']);
+
 Route::get('/user/{user}/follows/total_count' , [ FollowController::class , 'total_count' ]);
 Route::get('/user/{user}/{kind}/type_count' , [ FollowController::class , 'type_count' ]);
 // // suggestion
@@ -136,7 +139,7 @@ Route::get('/readers/{order}/{page}' , [ReaderController::class , 'all']);
 Route::get('/reader/{user}' , [ReaderController::class , 'one']);
 
 // timeline
-Route::get('/timeline/{user}/{kind}/{page}' , [TimelineController::class , 'user_timeline']);
+Route::get('/user/{user}/timeline/{kind}/{page}' , [TimelineController::class , 'user_timeline']);
 Route::get('/book/{book}/timeline/{kind}/{page}' , [TimelineController::class , 'book_timeline']);
 Route::get('/user/{user}/homepage/{page}' , [TimelineController::class , 'homepage']);
 Route::get('/user/{user}/notification/{page}' , [TimelineController::class , 'notification']);

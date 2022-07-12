@@ -28,7 +28,6 @@ class TimelineController extends Controller
 {
     public function user_timeline(User $user , $kind , $page)
     {
-        
         $timeline = DB::table('timeline')
         
         ->where(function($query) use ($user) {
